@@ -1,2 +1,5 @@
 *.csv
 /env/
+keys.json
+__pycache__/
+__init__.py
