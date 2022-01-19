@@ -7,8 +7,9 @@ with open("keys.json") as f:
     host = data["x-rapidapi-host"]
     key = data["x-rapidapi-key"]
 
-# response = requests.get("https://api-nba-v1.p.rapidapi.com/teams/teamId/", headers=data)
-response = requests.get("https://api.sportsdata.io/api/nba/fantasy/json/Players")
+# url = "https://api.sportsdata.io/api/nba/fantasy/json/Players"
+url = "https://www.espn.com/nba/scoreboard/_/date/20220117"
+response = requests.get(url)
 
 if __name__ == "__main__":
     print(response.json())
