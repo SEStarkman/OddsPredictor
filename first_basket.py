@@ -73,11 +73,21 @@ def create_table(game_id_urls):
 
 
 if __name__ == '__main__':
-    sdate = '2021-10-19' # Start of 2021-2022 season
-    # edate = '2021-11-10'
-    # sdate = '2022-01-16'
+    filename = "first_score_2021-2022 copy.csv"
+    try:
+        existing_df = pd.read_csv(filename, index_col=0)
+        sdate = datetime.datetime.strptime(str(existing_df.iloc[-1]['date']), '%Y%m%d').strftime('%Y-%m-%d')
+        table_exists = True
+    except:
+        sdate = '2021-10-19' # Start of 2021-2022 season
+        table_exists = False
+
     edate = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
     game_id_urls, gameid_date = get_game_ids_by_date_range(sdate, edate)
+
+    # if not table_exists:
+    #     df = create_table(game_id_urls)
+
     df = create_table(game_id_urls)
     df['date'] = gameid_date
     for url in game_id_urls:
@@ -86,5 +96,9 @@ if __name__ == '__main__':
         df['tip_off'][gameid] = tip_off
         df['first_scorer'][gameid] = first_score
     
-    print(df)
-    df.to_csv('first_score.csv')
+    if table_exists:
+        df = existing_df.append(df)
+
+    df = df.astype('str')
+    df.drop_duplicates(inplace=True)
+    df.to_csv('first_score_2021-2022.csv')
