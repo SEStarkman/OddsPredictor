@@ -73,7 +73,7 @@ def create_table(game_id_urls):
 
 
 if __name__ == '__main__':
-    filename = "first_score_2021-2022 copy.csv"
+    filename = "first_score_2021-2022.csv"
     try:
         existing_df = pd.read_csv(filename, index_col=0)
         sdate = datetime.datetime.strptime(str(existing_df.iloc[-1]['date']), '%Y%m%d').strftime('%Y-%m-%d')
@@ -84,9 +84,6 @@ if __name__ == '__main__':
 
     edate = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
     game_id_urls, gameid_date = get_game_ids_by_date_range(sdate, edate)
-
-    # if not table_exists:
-    #     df = create_table(game_id_urls)
 
     df = create_table(game_id_urls)
     df['date'] = gameid_date
